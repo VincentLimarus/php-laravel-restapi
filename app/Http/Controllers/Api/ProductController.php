@@ -14,33 +14,25 @@ class ProductController extends Controller
         $products = Product::get();
         if($products->count() > 0){
             return response()->json([
-                'message' => 'Data found',
                 'code' => 200,
+                'message' => 'Data found',
                 'data' => ProductResource::collection($products)
             ]);
         }else{
             return response()->json([
-                'message' => 'Data not found',
                 'code' => 404,
+                'message' => 'Data not found',
             ]);
         }
     }
 
-    public function GetProductByID($id){
-        $product = Product::find($id);
-        if($product){
-            return response()->json([
-                'message' => 'Data found',
-                'code' => 200,
-                'data' => new ProductResource($product)
-            ]);
-        }else{
-            return response()->json([
-                'message' => 'Data not found',
-                'code' => 404,
-            ]);
-        }
-    }
+    public function GetProductByID(Product $product) {
+        return response()->json([
+            'code' => 200,
+            'message' => 'Data found',
+            'data' => new ProductResource($product)
+        ]);
+    }    
 
     public function CreateProduct(Request $request) {
         $validator = Validator::make($request->all(), [
